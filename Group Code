@@ -1,0 +1,26 @@
+set cut_paste_input [stack 0]
+version 13.0 v4
+push $cut_paste_input
+Group {
+name Group1
+knobChanged "if nuke.thisKnob().name() == 'inputChange':\n    n = nuke.thisNode()\n    i = nuke.toNode(\"Input1\")\n    maxIndex = n.maximumInputs() - 1\n    if n.input(maxIndex) is not None:\n        # Last input is connected to something. Add a new one.\n        with n:\n            nuke.nodes.Input()\n    else:\n        # Find disconnected inputs at the end to remove\n        lastIndex = n.inputs()\n        if lastIndex < maxIndex:\n            for inputNode in nuke.allNodes('Input', group=n):\n                if inputNode\['number'].value() > lastIndex:\n                    nuke.delete(inputNode)"
+selected true
+xpos 6450
+ypos -5073
+addUserKnob {20 User}
+addUserKnob {3 inputChange +INVISIBLE}
+}
+Input {
+inputs 0
+name Input1
+selected true
+xpos -40
+ypos 87
+}
+Output {
+name Output1
+selected true
+xpos -40
+ypos 303
+}
+end_group
